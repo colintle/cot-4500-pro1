@@ -32,8 +32,17 @@ def fixed_point_iteration(g, initial_guess, tol, max_iter=50):
 
     return None, max_iter, "FAILURE: Reached maximum iterations"
 
-def newton_raphson_method(f, df, x0, tol):
-    pass
+def newton_raphson_method(f, df, x0, tol, max_iter=50):
+    for i in range(max_iter):
+        f_val = f(x0)
+        df_val = df(x0)
+        if df_val == 0:
+            return None, i, "FAILURE: Derivative is zero"
+        x1 = x0 - f_val / df_val
+        if abs(x1 - x0) < tol:
+            return x1, i + 1, "SUCCESS"
+        x0 = x1
+    return x0, max_iter, "FAILURE: Max iterations reached"
 
 def approximation_algorithm(value, tol=0.00001):
     if value < 0:
